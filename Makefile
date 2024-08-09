@@ -6,6 +6,7 @@ DOCKERFILE=docker/build_and_push.Dockerfile
 DOCKERFILE_BACKEND=docker/build_and_push_backend.Dockerfile
 DOCKERFILE_FRONTEND=docker/frontend/build_and_push_frontend.Dockerfile
 DOCKER_COMPOSE=docker_example/docker-compose.yml
+DOCKER_COMPOSE_DEBUG=docker/docker-compose.debug.yml
 PYTHON_REQUIRED=$(shell grep "^python" pyproject.toml | sed -n 's/.*"\(.*\)"$$/\1/p')
 RED=\033[0;31m
 NC=\033[0m # No Color
@@ -325,15 +326,18 @@ ifdef restore
 	mv poetry.lock.bak poetry.lock
 endif
 
+
 dev: ## run the project in development mode with docker compose
 	make install_frontend
 ifeq ($(build),1)
 	@echo 'Running docker compose up with build'
-	docker compose $(if $(debug),-f docker-compose.debug.yml) up --build
+	docker compose $(if $(debug),-f ${DOCKER_COMPOSE_DEBUG},-f ${DOCKER_COMPOSE_DEBUG}) up --build
 else
 	@echo 'Running docker compose up without build'
-	docker compose $(if $(debug),-f docker-compose.debug.yml) up
+	docker compose $(if $(debug),-f ${DOCKER_COMPOSE_DEBUG},-f ${DOCKER_COMPOSE_DEBUG}) up
 endif
+
+
 
 docker_build: dockerfile_build clear_dockerimage ## build DockerFile
 

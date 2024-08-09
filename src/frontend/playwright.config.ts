@@ -76,7 +76,7 @@ export default defineConfig({
       port: 7860,
       env: {
         LANGFLOW_DATABASE_URL: "sqlite:///./temp",
-        LANGFLOW_AUTO_LOGIN: "true",
+        LANGFLOW_AUTO_LOGIN: "false",
       },
       stdout: "ignore",
 

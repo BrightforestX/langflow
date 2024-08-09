@@ -98,4 +98,7 @@ RUN python -m pip install /app/src/backend/base/dist/*.tar.gz --user
 ENV LANGFLOW_HOST=0.0.0.0
 ENV LANGFLOW_PORT=7860
 
+EXPOSE 7869
+EXPOSE 3000
+
 CMD ["python", "-m", "langflow", "run"]

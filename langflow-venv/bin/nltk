@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' /Users/clifforddalsoniii/Documents/Brightforest/projects/development/active/flutterflow/ml/midjourney/py-midjourney/py/crewai/langflow/langflow/langflow-venv/bin/python "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from nltk.cli import cli
+if __name__ == "__main__":
+    sys.argv[0] = re.sub(r"(-script\.pyw|\.exe)?$", "", sys.argv[0])
+    sys.exit(cli())

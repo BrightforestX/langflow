@@ -1,0 +1,33 @@
+version: '3.4'
+
+
+services:
+  backend:
+    volumes:
+      - ./:/app
+    build:
+      context: ../docker
+      dockerfile: ./build_and_push_backend.Dockerfile
+      args:
+        - BACKEND_URL=http://localhost:7860
+        - LANGFLOW_IMAGE=langflowai/langflow:latest
+    command: ["sh", "-c", "pip install debugpy -t /tmp && python /tmp/debugpy --wait-for-client --listen 0.0.0.0:5678 -m uvicorn langflow.main:app --host 0.0.0.0 --port 7860 --reload"]
+    ports:
+      - 7860:7860
+      - 5678:5678
+    restart: on-failure
+
+  frontend:
+    build:
+      context: ../docker
+      dockerfile: ./frontend/build_and_push_frontend.Dockerfile
+      args:
+        - BACKEND_URL=http://localhost:7860
+        - LANGFLOW_IMAGE=langflowai/langflow:latest
+    ports:
+      - "3000:3000"
+    volumes:
+     - ../src/frontend/public:/home/node/app/public
+     - ../src/frontend/src:/home/node/app/src
+     - ../src/frontend/package.json:/home/node/app/package.json
+    restart: on-failure

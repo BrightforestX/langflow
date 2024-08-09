@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, List
 
 import httpx
 from langchain_community.chat_models import ChatOllama
@@ -55,7 +55,7 @@ class ChatOllamaComponent(LCModelComponent):
 
         return build_config
 
-    def get_model(self, url: str) -> list[str]:
+    def get_model(self, url: str) -> List[str]:
         try:
             with httpx.Client() as client:
                 response = client.get(url)
@@ -77,7 +77,8 @@ class ChatOllamaComponent(LCModelComponent):
         DropdownInput(
             name="model_name",
             display_name="Model Name",
-            value="llama3",
+            options=["llama3", "gemma:2b"],
+            value="gemma:2b",
             info="Refer to https://ollama.ai/library for more models.",
             refresh_button=True,
         ),

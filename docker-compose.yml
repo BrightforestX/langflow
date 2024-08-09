@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  frontend_deps:
+    build:
+      context: ./docker
+      dockerfile: frontend_deps_stg1.Dockerfile
+    ports:
+      - "7860:7860"
+      - "3000:3000"
+    #command: ["make", "install_frontendci"]
+
+  langflow:
+    build:
+      context: .
+      dockerfile: make.Dockerfile
+    ports:
+      - "7860:7860"
+      - "3000:3000"
+    command: ["make", "backend"]
