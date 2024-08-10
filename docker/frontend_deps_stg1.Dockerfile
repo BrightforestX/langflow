@@ -54,6 +54,10 @@ WORKDIR /app/langflow
 # Install rollup (if necessary)
 RUN npm install @rollup/rollup-linux-x64-gnu
 
+# Build the frontend with local files
+RUN make install_frontendci \
+    && make build_frontend
+
 # List the contents of the directory
 RUN tree
 RUN ls

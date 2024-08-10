@@ -45,10 +45,6 @@ COPY --from=frontend_deps /app/src/frontend/package-lock.json /app/langflow/src/
 # Install rollup (if necessary)
 RUN npm install @rollup/rollup-linux-x64-gnu
 
-# Build the frontend with local files
-RUN make install_frontendci \
-    && make build_frontend
-
 # Set environment variables for LangFlow
 ENV LANGFLOW_HOST=0.0.0.0
 ENV LANGFLOW_PORT=7860
@@ -60,4 +56,4 @@ ENV BACKEND_URL=http://localhost:7860/
 EXPOSE 7860
 
 # Define the default command
-CMD ["make", "backend"]
+RUN make backend
