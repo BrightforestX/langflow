@@ -251,6 +251,30 @@ frontendc:
 	make run_frontend
 
 
+run_backend: ## run the backend in development mode
+	@echo 'Run backend'
+	@-kill -9 $$(lsof -t -i:7860)
+ifdef login
+	@echo "Running backend autologin is $(login)";
+	LANGFLOW_AUTO_LOGIN=$(login) poetry run uvicorn \
+		--factory langflow.main:create_app \
+		--host 0.0.0.0 \
+		--port $(port) \
+		--reload \
+		--env-file $(env) \
+		--loop asyncio \
+		--workers $(workers)
+else
+	@echo "Running backend respecting the $(env) file";
+	poetry run uvicorn \
+		--factory langflow.main:create_app \
+		--host 0.0.0.0 \
+		--port $(port) \
+		--reload \
+		--env-file $(env) \
+		--loop asyncio \
+		--workers $(workers)
+endif
 
 backend: ## run the backend in development mode
 	@echo 'Setting up the environment'

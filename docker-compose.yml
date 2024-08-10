@@ -6,9 +6,8 @@ services:
       context: ./docker
       dockerfile: frontend_deps_stg1.Dockerfile
     ports:
-      - "7860:7860"
       - "3000:3000"
-    #command: ["make", "install_frontendci"]
+    command: ["make", "run_frontend"]
 
   langflow:
     build:
@@ -16,5 +15,4 @@ services:
       dockerfile: make.Dockerfile
     ports:
       - "7860:7860"
-      - "3000:3000"
-    command: ["make", "backend"]
+    command: ["make", "run_backend"]
