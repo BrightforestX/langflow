@@ -30,7 +30,7 @@ on:
         default: true
 env:
   POETRY_VERSION: "1.8.2"
-  TEST_TAG: "langflowai/langflow:test"
+  TEST_TAG: "jbach/test-image:test"
 
 jobs:
   setup:
@@ -44,13 +44,13 @@ jobs:
         id: set-vars
         run: |
           if [[ "${{ inputs.release_type }}" == "base" ]]; then
-            echo "tags=langflowai/langflow:base-${{ inputs.version }},langflowai/langflow:base-latest" >> $GITHUB_OUTPUT
+            echo "tags=jbach/test-image:base-${{ inputs.version }},jbach/test-image:base-latest" >> $GITHUB_OUTPUT
             echo "file=./docker/build_and_push_base.Dockerfile" >> $GITHUB_OUTPUT
           else
             if [[ "${{ inputs.pre_release }}" == "true" ]]; then
-              echo "tags=langflowai/langflow:${{ inputs.version }}" >> $GITHUB_OUTPUT
+              echo "tags=jbach/test-image:${{ inputs.version }}" >> $GITHUB_OUTPUT
             else
-              echo "tags=langflowai/langflow:${{ inputs.version }},langflowai/langflow:latest" >> $GITHUB_OUTPUT
+              echo "tags=jbach/test-image:${{ inputs.version }},jbach/test-image:latest" >> $GITHUB_OUTPUT
             fi
             echo "file=./docker/build_and_push.Dockerfile" >> $GITHUB_OUTPUT
           fi
@@ -86,10 +86,10 @@ jobs:
         include:
           - component: backend
             dockerfile: ./docker/build_and_push_backend.Dockerfile
-            tags: ${{ inputs.pre_release == 'true' && format('langflowai/langflow-backend:{0}', inputs.version) || format('langflowai/langflow-backend:{0},langflowai/langflow-backend:latest', inputs.version) }}
+            tags: ${{ inputs.pre_release == 'true' && format('jbach/test-image-backend:{0}', inputs.version) || format('jbach/test-image-backend:{0},jbach/test-image-backend:latest', inputs.version) }}
           - component: frontend
             dockerfile: ./docker/frontend/build_and_push_frontend.Dockerfile
-            tags: ${{ inputs.pre_release == 'true' && format('langflowai/langflow-frontend:{0}', inputs.version) || format('langflowai/langflow-frontend:{0},langflowai/langflow-frontend:latest', inputs.version) }}
+            tags: ${{ inputs.pre_release == 'true' && format('jbach/test-image-frontend:{0}', inputs.version) || format('jbach/test-image-frontend:{0},jbach/test-image-frontend:latest', inputs.version) }}
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
@@ -107,7 +107,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            LANGFLOW_IMAGE=langflowai/langflow:${{ inputs.version }}
+            LANGFLOW_IMAGE=jbach/test-image:${{ inputs.version }}
           file: ${{ matrix.dockerfile }}
           tags: ${{ matrix.tags }}
           # provenance: false will result in a single manifest for all platforms which makes the image pullable from arm64 machines via the emulation (e.g. Apple Silicon machines)
