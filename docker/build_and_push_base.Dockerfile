@@ -101,7 +101,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev 
 
 # Now you can install psycopg2
-RUN python -m pip install psycopg2
+RUN python -m pip install psycopg2-binary
 
 
 ENV LANGFLOW_HOST=0.0.0.0
