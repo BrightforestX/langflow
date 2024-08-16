@@ -94,6 +94,7 @@ RUN cd src/backend/base && $POETRY_HOME/bin/poetry build
 USER user
 # Install the package from the .tar.gz
 RUN python -m pip install /app/src/backend/base/dist/*.tar.gz --user
+RUN python -m pip install psycopg2
 
 ENV LANGFLOW_HOST=0.0.0.0
 ENV LANGFLOW_PORT=7860
