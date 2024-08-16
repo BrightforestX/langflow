@@ -100,7 +100,7 @@ USER root
 RUN apt-get update && apt-get install -y \
     libpq-dev 
 
-# Now you can install psycopg2
+# Now you can install psycopg2-binary
 RUN python -m pip install psycopg2-binary
 
 
