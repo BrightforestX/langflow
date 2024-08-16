@@ -95,6 +95,15 @@ USER user
 # Install the package from the .tar.gz
 RUN python -m pip install /app/src/backend/base/dist/*.tar.gz --user
 
+# Install PostgreSQL development libraries
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Now you can install psycopg2
+RUN python -m pip install psycopg2
+
+
 ENV LANGFLOW_HOST=0.0.0.0
 ENV LANGFLOW_PORT=7860
 
