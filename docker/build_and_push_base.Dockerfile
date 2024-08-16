@@ -95,10 +95,10 @@ USER user
 # Install the package from the .tar.gz
 RUN python -m pip install /app/src/backend/base/dist/*.tar.gz --user
 
+USER root
 # Install PostgreSQL development libraries
 RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && rm -rf /var/lib/apt/lists/*
+    libpq-dev 
 
 # Now you can install psycopg2
 RUN python -m pip install psycopg2
