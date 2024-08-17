@@ -97,6 +97,10 @@ RUN python -m pip install /app/src/backend/base/dist/*.tar.gz --user
 #RUN python -m pip install psycopg2
 
 USER root
+
+RUN mkdir -p /home/user/.cache/langflow/ && \
+    chown -R user:user /home/user/.cache/langflow/
+
 # Install PostgreSQL development libraries
 RUN apt-get update && apt-get install -y \
     libpq-dev 
